@@ -5,6 +5,7 @@
             var lpDomain = 'lptag.liveperson.net';
             var site = '43687531';
             var isQA = false;
+            var isAsync = params.indexOf('async') > -1;
             var envParam = params.filter(function (p) { return p.indexOf('env=') === 0;});
             if (envParam && envParam.length) {
                 isQA = envParam[0].slice(4) === 'qa';
@@ -59,7 +60,11 @@
                     var n = t;
                     t || (n = this.protocol + '//' + (this.ovr && this.ovr.domain ? this.ovr.domain : lpDomain) + '/tag/tag.js?site=' + this.site);
                     var o = document.createElement('script');
-                    o.setAttribute('charset', e ? e : 'UTF-8'), i && o.setAttribute('id', i), o.setAttribute('src', n), document.getElementsByTagName('head').item(0).appendChild(o)
+                    o.setAttribute('charset', e ? e : 'UTF-8'),
+                        i && o.setAttribute('id', i),
+                        isAsync && o.setAttribute('async', ''),
+                        o.setAttribute('src', n),
+                        document.getElementsByTagName('head').item(0).appendChild(o)
                 },
                 init: function() {
                     this._timing = this._timing || {}, this._timing.start = (new Date).getTime();

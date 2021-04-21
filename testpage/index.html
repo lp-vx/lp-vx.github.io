@@ -4,7 +4,14 @@
             var params = (location.search || '').slice(1).split('&');
             var lpDomain = 'lptag.liveperson.net';
             var site = '43687531';
-            if (params.indexOf('cdn') > -1) {
+            var isQA = false;
+            var envParam = params.filter(function (p) { return p.indexOf('env=') === 0;});
+            if (siteParam && siteParam.length) {
+                isQA = siteParam[0].slice(4) === 'qa';
+            }
+            if (isQA) {
+                lpDomain = 'lptag-dev.dev.lprnd.net';
+            } else if (params.indexOf('cdn') > -1) {
                 lpDomain = 'lptag-cdn.liveperson.net';
             }
             var siteParam = params.filter(function (p) { return p.indexOf('site=') === 0;});
